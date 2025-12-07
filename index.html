@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overfishing Style and Coherence Quiz</title>
+    <!-- Load Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better aesthetics and focus - Red/Orange Theme */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fff8e1; /* Very light yellow/orange background */
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        h1 {
+            color: #d9534f; /* Muted Red/Orange */
+        }
+        .question-card {
+            background-color: #fffaf0;
+            border-left: 5px solid #f0ad4e; /* Orange border */
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            color: #d9534f;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 8px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .option-label:hover {
+            background-color: #fff3e0; 
+            border-color: #f0ad4e;
+        }
+        input[type="radio"] {
+            margin-right: 12px;
+            accent-color: #f0ad4e;
+            transform: scale(1.2);
+        }
+        .fill-in-the-blank {
+            padding: 8px 12px;
+            border: 2px solid #f0ad4e;
+            border-radius: 4px;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+        .check-btn {
+            background-color: #d9534f;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .check-btn:hover {
+            background-color: #c9302c;
+        }
+        .result-message {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .rationale {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            border-left: 3px solid #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1 class="text-3xl font-extrabold text-center mb-6">Style and Coherence Quiz: Academic Writing</h1>
+    <p class="text-center text-gray-600 mb-8">This quiz focuses on improving clarity, conciseness, and the logical flow (coherence) of arguments.</p>
+
+    <div id="quiz-content">
+        <!-- Questions will be injected here by JavaScript -->
+    </div>
+
+    <div class="flex justify-center mt-8">
+        <button id="submit-quiz" class="check-btn">Finish Quiz & Check Score</button>
+    </div>
+
+    <div id="score-area" class="mt-8 text-center hidden">
+        <h2 class="text-2xl font-bold text-gray-700">Your Score: <span id="final-score" class="text-green-600"></span> / 15</h2>
+        <p id="score-feedback" class="mt-2 text-lg"></p>
+    </div>
+</div>
+
+<script>
+    // Define the quiz questions (15 questions total for Style and Coherence)
+    const quizQuestions = [
+        {
+            type: "mc",
+            question: "Choose the most concise phrasing (eliminating redundancy):",
+            sentence: "___________ (In the conclusion section, it is clear that / In conclusion,) overfishing must be addressed.",
+            answer: "In conclusion,",
+            options: ["In the conclusion section, it is clear that", "In conclusion,", "In the ending summary,"],
+            rationale: "'In conclusion' is the standard, concise transition. The other options are wordy and redundant."
+        },
+        {
+            type: "mc",
+            question: "Choose the most specific and precise noun to replace the vague term:",
+            sentence: "Illegal and unregulated fishing are the main drivers of this **(problem / overexploitation)**.",
+            answer: "overexploitation",
+            options: ["problem", "situation", "overexploitation"],
+            rationale: "'Overexploitation' is a precise, technical term that clearly defines the nature of the 'problem' in an academic context."
+        },
+        {
+            type: "mc",
+            question: "Choose the best formal connector for adding a supporting point (Coherence):",
+            sentence: "Increased demand is a factor. ___________ (In addition, / Also,) technological advances make overfishing easier.",
+            answer: "Moreover,",
+            options: ["Also,", "Plus,", "Moreover,"],
+            rationale: "'Moreover' is a strong, formal conjunctive adverb for introducing a related, additional argument in academic writing."
+        },
+        {
+            type: "mc",
+            question: "Choose the most concise option to replace the wordy phrase:",
+            sentence: "Fishermen catch more fish **(due to the fact that / because)** they need more income.",
+            answer: "because",
+            options: ["due to the fact that", "as a reason that", "because"],
+            rationale: "'Because' achieves the same causal link as 'due to the fact that' in one clear word."
+        },
+        {
+            type: "mc",
+            question: "Choose the most professional adjective/noun combination (Clarity/Formality):",
+            sentence: "Overfishing has many **(bad effects / detrimental consequences)** on the environment.",
+            answer: "detrimental consequences",
+            options: ["bad effects", "detrimental consequences", "negative outcome things"],
+            rationale: "'Detrimental consequences' is the most formal and precise phrase, elevating the essay's tone."
+        },
+        {
+            type: "mc",
+            question: "Choose the best formal connector for introducing a strong counter-argument or contrast (Coherence):",
+            sentence: "Some argue that fishing quotas are unfair. ___________ (But, / Conversely,) others believe regulation is essential for survival.",
+            answer: "Conversely,",
+            options: ["But,", "Conversely,", "On the side that is opposite,"],
+            rationale: "'Conversely' effectively signals a formal transition to an opposing viewpoint, improving coherence."
+        },
+        {
+            type: "mc",
+            question: "Choose the most concise and active sentence structure (Conciseness/Clarity):",
+            sentence: "___________ (Illegal fishing is something weak laws allow / Weak laws allow illegal fishing) to continue.",
+            answer: "Weak laws allow illegal fishing",
+            options: ["Illegal fishing is something weak laws allow", "It is allowed by weak laws that illegal fishing takes place", "Weak laws allow illegal fishing"],
+            rationale: "This option uses the active voice and is the most direct and concise statement of the cause-and-effect relationship."
+        },
+        {
+            type: "mc",
+            question: "Correct the structure to maintain strong parallelism and clarity (Clarity/Coherence):",
+            sentence: "The effects are ecological, economic, and **(social / that affect society)**.",
+            answer: "social",
+            options: ["social", "to society", "that affect society"],
+            rationale: "Using the adjective 'social' maintains parallelism with the preceding adjectives ('ecological,' 'economic')."
+        },
+        {
+            type: "fill",
+            question: "Fill in the blank with a formal transition word showing a clear result (Coherence):",
+            sentence: "Fish are caught faster than they can reproduce; ___________, the stock steadily declines.",
+            answer: "consequently",
+            hint: "A four-syllable adverb meaning 'as a result.'"
+        },
+        {
+            type: "mc",
+            question: "Choose the most specific and descriptive phrase (Clarity):",
+            sentence: "Modern technology helps fleets catch **(large amounts of fish / vast quantities of fish)** quickly.",
+            answer: "vast quantities of fish",
+            options: ["large amounts of fish", "much fish", "vast quantities of fish"],
+            rationale: "'Vast quantities' is a stronger, more descriptive phrase than the generic 'large amounts'."
+        },
+        {
+            type: "mc",
+            question: "Choose the most concise option (eliminating redundancy):",
+            sentence: "The fish population decreased **(rapidly and quickly / rapidly)** last year.",
+            answer: "rapidly",
+            options: ["rapidly and quickly", "fast and rapidly", "rapidly"],
+            rationale: "'Rapidly' and 'quickly' are synonyms; using both is redundant. 'Rapidly' is the more formal choice."
+        },
+        {
+            type: "mc",
+            question: "Choose the best formal sequential transition marker (Coherence):",
+            sentence: "First, habitat is damaged. ___________ (Second, / Furthermore,) bycatch unnecessarily kills smaller marine life.",
+            answer: "Furthermore,",
+            options: ["Second,", "Furthermore,", "Also, next,"],
+            rationale: "'Furthermore' is effective for adding a second, important point that reinforces the main idea, showing progression in the argument."
+        },
+        {
+            type: "mc",
+            question: "Choose the strongest and most active verb phrase to improve conciseness and impact (Clarity/Conciseness):",
+            sentence: "The government should ensure that **(It is essential to take action / Immediate action is required)** to protect the oceans.",
+            answer: "Immediate action is required",
+            options: ["It is essential to take action", "Action must be taken in this situation", "Immediate action is required"],
+            rationale: "'Immediate action is required' is forceful, concise, and uses an active structure to convey urgency."
+        },
+        {
+            type: "mc",
+            question: "Choose the most concise introductory signal phrase for the summary:",
+            sentence: "_________________________ (In conclusion, / To summarize), we must find a global solution.",
+            answer: "To summarize,",
+            options: ["In conclusion,", "In the summary part,", "To summarize,"],
+            rationale: "'To summarize' is a concise and direct way to transition to the final summary of the points discussed."
+        },
+        {
+            type: "mc",
+            question: "Choose the most formal and authoritative way to express an opinion (Clarity/Formality):",
+            sentence: "My advice is crucial. **(It is my opinion that / In my view,)** quotas must be strictly enforced.",
+            answer: "In my view,",
+            options: ["It is my opinion that", "I think that", "In my view,"],
+            rationale: "'In my view' is a common, formal phrase for introducing a personal judgment or recommendation in academic writing."
+        }
+    ];
+
+    const quizContent = document.getElementById('quiz-content');
+    const submitButton = document.getElementById('submit-quiz');
+    const scoreArea = document.getElementById('score-area');
+    const finalScore = document.getElementById('final-score');
+    const scoreFeedback = document.getElementById('score-feedback');
+
+    // Function to render the quiz questions
+    function renderQuiz() {
+        quizQuestions.forEach((q, index) => {
+            const questionNum = index + 1;
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.innerHTML = `
+                <div class="question-text">
+                    <span class="font-black">${questionNum}.</span> 
+                    ${q.question}
+                </div>
+                <p class="mb-4 text-gray-700 italic">${q.sentence.replace('(', '<strong>').replace(')', '</strong>')}</p>
+                <div id="options-${questionNum}">
+                    ${q.type === 'mc' ? q.options.map((option, i) => `
+                        <label class="option-label">
+                            <input type="radio" name="q${questionNum}" value="${option.toLowerCase().trim()}">
+                            ${option}
+                        </label>
+                    `).join('') : `
+                        <input type="text" id="fill-${questionNum}" class="fill-in-the-blank" placeholder="${q.hint}">
+                    `}
+                </div>
+                <div id="result-${questionNum}" class="result-message hidden"></div>
+            `;
+            quizContent.appendChild(card);
+        });
+    }
+
+    // Function to calculate and display results
+    function submitQuiz() {
+        let score = 0;
+        quizQuestions.forEach((q, index) => {
+            const questionNum = index + 1;
+            const resultDiv = document.getElementById(`result-${questionNum}`);
+            const optionsDiv = document.getElementById(`options-${questionNum}`);
+            let isCorrect = false;
+            let selectedAnswer = '';
+
+            resultDiv.classList.remove('hidden', 'correct', 'incorrect');
+
+            if (q.type === 'mc') {
+                const selectedOption = document.querySelector(`input[name="q${questionNum}"]:checked`);
+                if (selectedOption) {
+                    selectedAnswer = selectedOption.value;
+                    isCorrect = selectedAnswer === q.answer.toLowerCase().trim();
+                }
+            } else if (q.type === 'fill') {
+                const fillInput = document.getElementById(`fill-${questionNum}`);
+                if (fillInput) {
+                    selectedAnswer = fillInput.value.toLowerCase().trim();
+                    // Clean up potential student errors like spelling/spacing for lenient grading, but check for core word.
+                    const normalizedAnswer = q.answer.toLowerCase().trim().replace(/[^a-z0-9\s]/g, '');
+                    isCorrect = normalizedAnswer === selectedAnswer;
+                }
+            }
+
+            if (isCorrect) {
+                score++;
+                resultDiv.classList.add('correct');
+                resultDiv.innerHTML = `✅ Correct!`;
+            } else {
+                resultDiv.classList.add('incorrect');
+                const correctAnswerText = q.type === 'mc' ? q.answer : q.answer;
+                resultDiv.innerHTML = `❌ Incorrect. The correct answer is: <strong>${correctAnswerText}</strong>`;
+            }
+            
+            // Display Rationale
+            resultDiv.innerHTML += `<div class="rationale">${q.rationale}</div>`;
+            resultDiv.classList.remove('hidden');
+
+            // Disable all inputs after submission
+            if (q.type === 'mc') {
+                optionsDiv.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
+            } else if (q.type === 'fill') {
+                 document.getElementById(`fill-${questionNum}`).disabled = true;
+            }
+        });
+
+        // Display final score
+        finalScore.textContent = score;
+        scoreArea.classList.remove('hidden');
+        submitButton.disabled = true;
+        submitButton.textContent = "Quiz Completed";
+
+        if (score === quizQuestions.length) {
+            scoreFeedback.textContent = "Excellent! You have mastered these key style and coherence points!";
+            scoreFeedback.classList.add('text-green-600');
+        } else if (score >= quizQuestions.length / 2) {
+            scoreFeedback.textContent = "Good job! Review the rationales to polish your remaining mistakes in flow and precision.";
+            scoreFeedback.classList.add('text-yellow-600');
+        } else {
+            scoreFeedback.textContent = "Keep practicing! Focus on using formal, concise language and clear linking words.";
+            scoreFeedback.classList.add('text-red-600');
+        }
+    }
+
+    // Initialize the quiz
+    document.addEventListener('DOMContentLoaded', () => {
+        renderQuiz();
+        submitButton.addEventListener('click', submitQuiz);
+    });
+</script>
+
+</body>
+</html>
